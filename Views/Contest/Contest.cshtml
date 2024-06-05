@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "Contest";
+}
+
+<div>
+    <div class="border shadow">
+        <div class="card-header bg-primary  m-lg-0 py-2">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="text-white opacity-75">Upcoming Contest</h2>
+                </div>
+            </div>
+        </div>
+        <div class="p-3">
+            <div class="card-body  p-4" style="overflow-x:auto">
+                <div class=" judgename">
+                    <span >Codeforces</span>
+                </div>
+                <table id="example" class="table table-bordered table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Contest Name</th>
+                            <th>Date Time</th>
+                            <th>Duration(H)</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body  p-4" style="overflow-x:auto">
+                <div class=" judgename">
+                    <span>Atcoder</span>
+                </div>
+                <table id="example2" class="table table-bordered table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Contest Name</th>
+                            <th>Date Time</th>
+                            <th>Duration(H)</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body  p-4" style="overflow-x:auto">
+                <div class=" judgename">
+                    <span>Codechef</span>
+                </div>
+                <table id="example3" class="table table-bordered table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Contest Name</th>
+                            <th>Date Time</th>
+                            <th>Duration(H)</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '/contest/getcontestlistcodeforces',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                var tableBody = $('#example tbody');
+                for (var i = 0; i < response.length; i++) {
+                    var contestLink = 'https://codeforces.com/contests/' + response[i].id;
+                    var row = '<tr>' +
+                        '<td>' + response[i].name + '</td>' +
+                        '<td>' + response[i].startTime + "&nbsp;&nbsp;" + '</td>' +
+                        '<td>' + response[i].duration + '</td>' +
+                        '<td><a href="' + contestLink + '" target="_blank">Contest Link</a></td>' +
+                        '</tr>';
+                    tableBody.append(row);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("hi");
+                console.error('Error fetching contests:', error);
+            }
+        });
+        //atcoder
+        $.ajax({
+            url: '/contest/getcontestlistatcoder',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                var tableBody = $('#example2 tbody');
+                for (var i = 0; i < response.length; i++) {
+                    var contestLink = 'https://atcoder.jp/contests/' + response[i].id;
+                    var row = '<tr>' +
+                        '<td>' + response[i].name + '</td>' +
+                        '<td>' + response[i].startTime + "&nbsp;&nbsp;" + '</td>' +
+                        '<td>' + response[i].duration + '</td>' +
+                        '<td><a href="' + response[i].link + '" target="_blank">Contest Link</a></td>' +
+                        '</tr>';
+                    tableBody.append(row);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error fetching Atcoder contests:", error);
+            }
+        });
+
+        //codechef
+        $.ajax({
+            url: '/contest/getcontestlistcodechef',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                var tableBody = $('#example3 tbody');
+                for (var i = 0; i < response.length; i++) {
+                    var contestLink = 'https://atcoder.jp/contests/' + response[i].id;
+                    var row = '<tr>' +
+                        '<td>' + response[i].name + '</td>' +
+                        '<td>' + response[i].startTime + "&nbsp;&nbsp;" + '</td>' +
+                        '<td>' + response[i].duration + '</td>' +
+                        '<td><a href="' + response[i].link + '" target="_blank">Contest Link</a></td>' +
+                        '</tr>';
+                    tableBody.append(row);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error fetching Atcoder contests:", error);
+            }
+        });
+
+    });
+</script>
